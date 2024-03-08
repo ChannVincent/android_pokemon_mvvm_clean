@@ -4,8 +4,8 @@
 
 - pokemon api : https://pokeapi.co/api/v2/
 - mvvm clean architecture
-- unit test
-- functional test
+- unit test & functional test
+- view designed with jetpack compose 
 
 ## Pages
 
@@ -22,6 +22,7 @@
 - glide : image management
 - retrofit + gson converter : api call
 - navigation : navigate between pages
+- jetpack compose : design view
 
 clean architecture & MVVM
 - hilt : dependency injection
