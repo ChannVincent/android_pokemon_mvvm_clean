@@ -32,4 +32,5 @@ clean architecture & MVVM
 
 # Road map
 
-P1 - setup project and architecture
+P1 - setup project
+P2 - data layer
