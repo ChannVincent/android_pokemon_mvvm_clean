@@ -1,4 +1,4 @@
-package fr.chann.pokedex
+package fr.chann.pokedex.presentation.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,37 +10,35 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import fr.chann.pokedex.ui.theme.PokedexTheme
+import androidx.navigation.compose.rememberNavController
+import fr.chann.pokedex.presentation.view.navigation.MyAppNavHost
+import fr.chann.pokedex.presentation.view.theme.PokedexTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PokedexTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+            MyApp()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun MyApp() {
+    PokedexTheme {
+        val navController = rememberNavController()
+
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            MyAppNavHost(navController = navController)
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    PokedexTheme {
-        Greeting("Android")
-    }
+fun DefaultPreview() {
+    MyApp()
 }

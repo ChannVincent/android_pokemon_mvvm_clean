@@ -1,4 +1,4 @@
-package fr.chann.pokedex.ui.theme
+package fr.chann.pokedex.presentation.view.theme
 
 import android.app.Activity
 import android.os.Build
