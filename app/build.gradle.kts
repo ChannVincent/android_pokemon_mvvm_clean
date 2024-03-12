@@ -74,7 +74,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // hilt : dependency injection
-    val hiltVersion = "2.44"
+    val hiltVersion = "2.46"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
