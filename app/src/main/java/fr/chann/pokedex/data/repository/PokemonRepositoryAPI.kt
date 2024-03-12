@@ -7,13 +7,17 @@ class PokemonRepositoryAPI @Inject constructor(private val service: PokemonServi
 
     override suspend fun getPokemonList(): List<Pokemon> {
         try {
-            return service.getPokemonList().result.map { entity ->
-                val id = entity.url.split("/").last()
-                Pokemon(
-                    id,
-                    entity.name,
-                )
+            val result = service.getPokemonList().results
+            if (result != null) {
+                return result.map { entity ->
+                    val id = entity.url.split("/").last()
+                    Pokemon(
+                        id,
+                        entity.name,
+                    )
+                }
             }
+            return emptyList()
         }
         catch (exception : Exception) {
             throw Exception()

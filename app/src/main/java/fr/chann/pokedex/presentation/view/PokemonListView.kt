@@ -6,17 +6,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.Card
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import fr.chann.pokedex.presentation.viewmodel.PokemonListViewModel
 import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 
-
 @Composable
-fun PokemonListView(navController: NavController) {
-    val viewModel: PokemonListViewModel = viewModel()
+fun PokemonListView(navController: NavController, viewModel: PokemonListViewModel = hiltViewModel()) {
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.loadPokemonList()
+    })
     val viewState = viewModel.viewState.collectAsState()
-    viewModel.loadPokemonList()
     Column {
         Text(text = "LIST VIEW")
         Button(onClick = { navController.navigate("pokemon_detail") }) {

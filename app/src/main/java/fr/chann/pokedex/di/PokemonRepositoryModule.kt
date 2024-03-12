@@ -11,7 +11,7 @@ import fr.chann.pokedex.data.repository.PokemonService
 
 @Module
 @InstallIn(SingletonComponent::class)
-class PokemonRepositoryModule {
+object PokemonRepositoryModule {
 
     @Provides
     fun providesPokemonService() : PokemonService {
