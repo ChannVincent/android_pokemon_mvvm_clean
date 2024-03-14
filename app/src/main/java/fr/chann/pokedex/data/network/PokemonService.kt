@@ -1,4 +1,4 @@
-package fr.chann.pokedex.data.repository
+package fr.chann.pokedex.data.network
 
 import fr.chann.pokedex.data.entity.PokemonListResult
 import fr.chann.pokedex.data.entity.PokemonResult

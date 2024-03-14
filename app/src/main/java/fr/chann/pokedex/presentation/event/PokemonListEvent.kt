@@ -1,4 +1,4 @@
-package fr.chann.pokedex.presentation.viewmodel
+package fr.chann.pokedex.presentation.event
 
 sealed class PokemonListEvent {
 

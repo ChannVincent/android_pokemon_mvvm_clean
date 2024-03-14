@@ -1,8 +1,6 @@
 package fr.chann.pokedex.data.repository
 
-import fr.chann.pokedex.business.Pokemon
-import fr.chann.pokedex.business.PokemonDetail
-import fr.chann.pokedex.data.db.PokemonTable
+import fr.chann.pokedex.data.db.table.PokemonTable
 import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
@@ -11,5 +9,5 @@ interface PokemonRepository {
 
     suspend fun refreshPokemonList()
 
-    suspend fun getPokemonDetail(pokemonId: String): PokemonDetail
+    suspend fun refreshPokemonDetail(pokemonId: String)
 }

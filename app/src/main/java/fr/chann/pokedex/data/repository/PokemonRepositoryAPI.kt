@@ -1,9 +1,10 @@
 package fr.chann.pokedex.data.repository
 
-import fr.chann.pokedex.business.Pokemon
 import fr.chann.pokedex.business.PokemonDetail
 import fr.chann.pokedex.data.db.PokemonDAO
-import fr.chann.pokedex.data.db.PokemonTable
+import fr.chann.pokedex.data.db.table.PokemonDetailTable
+import fr.chann.pokedex.data.db.table.PokemonTable
+import fr.chann.pokedex.data.network.PokemonService
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -22,6 +23,7 @@ class PokemonRepositoryAPI @Inject constructor(
                 PokemonTable(
                     id,
                     entity.name,
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png"
                 )
             }
             if (pokemonList != null) {
@@ -33,15 +35,14 @@ class PokemonRepositoryAPI @Inject constructor(
         }
     }
 
-    override suspend fun getPokemonDetail(pokemonId: String): PokemonDetail {
+    override suspend fun refreshPokemonDetail(pokemonId: String) {
         try {
             val entity = service.getPokemon(pokemonId)
-            return PokemonDetail(
+            val pokemonTable = PokemonDetailTable(
                 entity.id.toString(),
-                entity.name,
-                entity.weight,
-                entity.height,
+                entity.id.toString(),
             )
+            // TODO insert pokemonTable
         }
         catch (exception : Exception) {
             throw Exception()

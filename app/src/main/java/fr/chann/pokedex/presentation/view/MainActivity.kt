@@ -14,7 +14,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import fr.chann.pokedex.presentation.event.PokemonListView
 import fr.chann.pokedex.presentation.view.theme.PokedexTheme
 
 @AndroidEntryPoint

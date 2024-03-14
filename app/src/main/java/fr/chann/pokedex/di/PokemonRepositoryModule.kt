@@ -4,12 +4,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import fr.chann.pokedex.data.db.AppDatabase
 import fr.chann.pokedex.data.db.PokemonDAO
-import fr.chann.pokedex.data.repository.PokemonAPIClient
+import fr.chann.pokedex.data.network.PokemonAPIClient
 import fr.chann.pokedex.data.repository.PokemonRepository
 import fr.chann.pokedex.data.repository.PokemonRepositoryAPI
-import fr.chann.pokedex.data.repository.PokemonService
+import fr.chann.pokedex.data.network.PokemonService
 
 @Module
 @InstallIn(SingletonComponent::class)

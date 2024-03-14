@@ -1,4 +1,4 @@
-package fr.chann.pokedex.data.repository
+package fr.chann.pokedex.data.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

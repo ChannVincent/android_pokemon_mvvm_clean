@@ -3,8 +3,8 @@ package fr.chann.pokedex.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import fr.chann.pokedex.data.repository.PokemonRepository
+import fr.chann.pokedex.presentation.event.PokemonListEvent
 import fr.chann.pokedex.presentation.viewstate.PokemonCardViewState
 import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,7 +54,7 @@ class PokemonListViewModel @Inject constructor(
                         id = it.id,
                         title = it.name,
                         description = "",
-                        image = "",
+                        image = it.image,
                     )
                 }
             ))
