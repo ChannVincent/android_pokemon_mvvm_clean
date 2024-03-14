@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import fr.chann.pokedex.data.db.AppDatabase
+import fr.chann.pokedex.data.db.PokemonDAO
 import fr.chann.pokedex.data.repository.PokemonAPIClient
 import fr.chann.pokedex.data.repository.PokemonRepository
 import fr.chann.pokedex.data.repository.PokemonRepositoryAPI
@@ -18,9 +20,10 @@ object PokemonRepositoryModule {
         return PokemonAPIClient.getService()
     }
 
+
     @Provides
-    fun providesPokemonRepositoryAPI(service: PokemonService) : PokemonRepositoryAPI {
-        return PokemonRepositoryAPI(service)
+    fun providesPokemonRepositoryAPI(service: PokemonService, dao: PokemonDAO) : PokemonRepositoryAPI {
+        return PokemonRepositoryAPI(service, dao)
     }
 
     @Provides

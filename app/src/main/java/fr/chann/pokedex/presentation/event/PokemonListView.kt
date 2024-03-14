@@ -1,4 +1,4 @@
-package fr.chann.pokedex.presentation.view
+package fr.chann.pokedex.presentation.event
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
@@ -9,14 +9,15 @@ import androidx.compose.material3.Card
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.chann.pokedex.presentation.viewmodel.PokemonListEvent
 import fr.chann.pokedex.presentation.viewmodel.PokemonListViewModel
 import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 
 @Composable
 fun PokemonListView(navController: NavController, viewModel: PokemonListViewModel = hiltViewModel()) {
-    LaunchedEffect(key1 = Unit, block = {
-        viewModel.loadPokemonList()
-    })
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(PokemonListEvent.GetAllPokemon)
+    }
     val viewState = viewModel.viewState.collectAsState()
     Column {
         Text(text = "LIST VIEW")

@@ -34,5 +34,4 @@ clean architecture & MVVM
 
 P1 - setup project
 P2 - data layer
-P3 - database : api backup 
-P4 - nice ui
+P3 - nice ui

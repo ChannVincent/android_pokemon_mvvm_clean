@@ -26,25 +26,39 @@ class PokemonListViewModel @Inject constructor(
         }
     }
 
-    fun loadPokemonList() {
-        viewModelScope.launch {
-            try {
-                updateViewState(PokemonListViewState.Loading)
-                val pokemonList = repository.getPokemonList()
-                updateViewState(PokemonListViewState.Content(pokemonList.map { pokemon ->
-                    PokemonCardViewState(
-                        pokemon.id,
-                        pokemon.name,
-                        "",
-                        "",
-                    )
-                }))
-            }
-            catch (e : Exception) {
-                updateViewState(PokemonListViewState.Error)
+    fun onEvent(events: PokemonListEvent) {
+        when (events) {
+            is PokemonListEvent.GetAllPokemon -> {
+                viewModelScope.launch {
+                    refreshPokemonList()
+                    getAllPokemon()
+                }
             }
         }
+    }
 
+    private suspend fun refreshPokemonList() {
+        try {
+            updateViewState(PokemonListViewState.Loading)
+            repository.refreshPokemonList()
+        } catch (e: Exception) {
+            updateViewState(PokemonListViewState.Error)
+        }
+    }
+
+    private suspend fun getAllPokemon() {
+        repository.pokemonList.collect { pokemonTableList ->
+            updateViewState(PokemonListViewState.Content(
+                pokemonTableList.map {
+                    PokemonCardViewState(
+                        id = it.id,
+                        title = it.name,
+                        description = "",
+                        image = "",
+                    )
+                }
+            ))
+        }
     }
 }
 

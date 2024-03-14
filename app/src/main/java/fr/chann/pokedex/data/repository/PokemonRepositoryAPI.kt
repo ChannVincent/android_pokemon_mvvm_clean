@@ -2,23 +2,31 @@ package fr.chann.pokedex.data.repository
 
 import fr.chann.pokedex.business.Pokemon
 import fr.chann.pokedex.business.PokemonDetail
+import fr.chann.pokedex.data.db.PokemonDAO
+import fr.chann.pokedex.data.db.PokemonTable
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class PokemonRepositoryAPI @Inject constructor(private val service: PokemonService): PokemonRepository {
+class PokemonRepositoryAPI @Inject constructor(
+    private val service: PokemonService,
+    private val dao: PokemonDAO,
+): PokemonRepository {
 
-    override suspend fun getPokemonList(): List<Pokemon> {
+    override val pokemonList: Flow<List<PokemonTable>> = dao.getAllPokemon()
+
+    override suspend fun refreshPokemonList() {
         try {
             val result = service.getPokemonList().results
-            if (result != null) {
-                return result.map { entity ->
-                    val id = entity.url.split("/").last()
-                    Pokemon(
-                        id,
-                        entity.name,
-                    )
-                }
+            val pokemonList = result?.map { entity ->
+                val id = entity.url.split("/").dropLast(1).last()
+                PokemonTable(
+                    id,
+                    entity.name,
+                )
             }
-            return emptyList()
+            if (pokemonList != null) {
+                dao.insertAll(pokemonList)
+            }
         }
         catch (exception : Exception) {
             throw Exception()
