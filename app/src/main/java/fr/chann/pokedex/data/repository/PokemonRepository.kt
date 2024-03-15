@@ -9,5 +9,5 @@ interface PokemonRepository {
 
     suspend fun refreshPokemonList()
 
-    suspend fun refreshPokemonDetail(pokemonId: String)
+    suspend fun getPokemon(pokemonId: String) : Flow<PokemonTable>
 }

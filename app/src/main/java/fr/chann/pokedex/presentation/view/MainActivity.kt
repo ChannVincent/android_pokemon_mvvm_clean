@@ -45,10 +45,10 @@ fun MyAppNavHost(navController: NavHostController) {
         composable("pokemon_list") {
             PokemonListView(navController)
         }
-        composable("pokemon_detail") {
-            PokemonDetailVIew(navController)
+        composable("pokemon_detail/{pokemonId}") {backStackEntry ->
+            val pokemonId = backStackEntry.arguments?.getString("pokemonId") ?: ""
+            PokemonDetailVIew(navController, pokemonId = pokemonId)
         }
-        // Add more screens as needed
     }
 }
 

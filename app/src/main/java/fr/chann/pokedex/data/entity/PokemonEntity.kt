@@ -11,12 +11,3 @@ data class PokemonEntity(
     val name: String,
     val url: String,
 )
-
-data class PokemonResult(
-    val id: Int,
-    val name: String,
-    val height: Int,
-    val order: Int,
-    val weight: Int,
-    // todo
-)

@@ -9,10 +9,3 @@ data class PokemonTable(
     val name: String,
     val image: String,
 )
-
-@Entity
-data class PokemonDetailTable(
-    @PrimaryKey val id: String,
-    val pokemonId: String,
-    // TODO more info
-)
