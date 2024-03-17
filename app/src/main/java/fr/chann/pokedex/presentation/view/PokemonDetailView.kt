@@ -29,10 +29,12 @@ fun PokemonDetailVIew(navController: NavController, pokemonId: String, viewModel
     }
     val viewState = viewModel.viewState.collectAsState()
     Column {
-        Text(text = "DETAIL VIEW $pokemonId")
-        Button(onClick = { navController.navigate("pokemon_list") }) {
-            Text("Go to Pokemon List")
+        Button(onClick = {
+            navController.popBackStack()
+        }) {
+            Text("< Back")
         }
+        Text(text = "DETAIL VIEW $pokemonId")
         when (val state = viewState.value) {
             is PokemonDetailViewState.Loading -> Text(text = "Loading")
             is PokemonDetailViewState.Content -> {
