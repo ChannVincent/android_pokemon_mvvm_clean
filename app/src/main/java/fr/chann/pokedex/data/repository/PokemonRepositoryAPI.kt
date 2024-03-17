@@ -22,7 +22,10 @@ class PokemonRepositoryAPI @Inject constructor(
                 PokemonTable(
                     id,
                     entity.name,
-                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png"
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png",
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png",
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png",
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${id}.png"
                 )
             }
             if (pokemonList != null) {

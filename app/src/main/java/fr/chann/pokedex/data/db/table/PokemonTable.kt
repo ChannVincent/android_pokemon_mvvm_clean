@@ -7,5 +7,12 @@ import androidx.room.PrimaryKey
 data class PokemonTable(
     @PrimaryKey val id: String,
     val name: String,
+    val icon: String,
+    val iconBack: String,
     val image: String,
+    val imageShiny: String,
 )
+
+// detail
+// types
+// abilities

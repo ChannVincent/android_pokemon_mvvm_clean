@@ -6,7 +6,7 @@ import fr.chann.pokedex.data.db.table.PokemonTable
 
 @Database(
     entities = [PokemonTable::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
