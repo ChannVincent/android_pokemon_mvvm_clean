@@ -3,13 +3,10 @@ package fr.chann.pokedex.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.chann.pokedex.business.Pokemon
-import fr.chann.pokedex.data.repository.PokemonRepository
+import fr.chann.pokedex.business.PokemonRepository
 import fr.chann.pokedex.presentation.event.PokemonDetailEvent
-import fr.chann.pokedex.presentation.event.PokemonListEvent
 import fr.chann.pokedex.presentation.viewstate.PokemonCardViewState
 import fr.chann.pokedex.presentation.viewstate.PokemonDetailViewState
-import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

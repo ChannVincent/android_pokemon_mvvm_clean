@@ -1,5 +1,6 @@
 package fr.chann.pokedex.data.repository
 
+import fr.chann.pokedex.business.PokemonRepository
 import fr.chann.pokedex.data.db.PokemonDAO
 import fr.chann.pokedex.data.db.table.PokemonTable
 import fr.chann.pokedex.data.network.PokemonService

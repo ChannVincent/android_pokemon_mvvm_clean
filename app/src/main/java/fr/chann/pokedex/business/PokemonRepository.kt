@@ -1,4 +1,4 @@
-package fr.chann.pokedex.data.repository
+package fr.chann.pokedex.business
 
 import fr.chann.pokedex.data.db.table.PokemonTable
 import kotlinx.coroutines.flow.Flow

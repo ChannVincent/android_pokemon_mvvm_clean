@@ -3,7 +3,7 @@ package fr.chann.pokedex.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.chann.pokedex.data.repository.PokemonRepository
+import fr.chann.pokedex.business.PokemonRepository
 import fr.chann.pokedex.presentation.event.PokemonListEvent
 import fr.chann.pokedex.presentation.viewstate.PokemonCardViewState
 import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
-        private val repository : PokemonRepository,
+    private val repository : PokemonRepository,
     ): ViewModel() {
 
     private val _viewState = MutableStateFlow<PokemonListViewState>(PokemonListViewState.Loading)

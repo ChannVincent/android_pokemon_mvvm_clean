@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import fr.chann.pokedex.data.db.PokemonDAO
 import fr.chann.pokedex.data.network.PokemonAPIClient
-import fr.chann.pokedex.data.repository.PokemonRepository
+import fr.chann.pokedex.business.PokemonRepository
 import fr.chann.pokedex.data.repository.PokemonRepositoryAPI
 import fr.chann.pokedex.data.network.PokemonService
 
