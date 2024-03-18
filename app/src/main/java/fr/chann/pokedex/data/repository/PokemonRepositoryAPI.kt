@@ -5,6 +5,7 @@ import fr.chann.pokedex.business.PokemonRepository
 import fr.chann.pokedex.data.db.PokemonDAO
 import fr.chann.pokedex.data.db.table.PokemonTable
 import fr.chann.pokedex.data.network.PokemonService
+import fr.chann.pokedex.shared.AppConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +26,10 @@ class PokemonRepositoryAPI @Inject constructor(
 
     override suspend fun refreshPokemonList() {
         try {
-            val result = service.getPokemonList().results
+            val result = service.getPokemonList(
+                offset = AppConfig.POKEMON_OFFSET,
+                limit = AppConfig.POKEMON_LIMIT
+            ).results
             val pokemonList = result?.map { entity ->
                 val id = entity.url.split("/").dropLast(1).last()
                 PokemonTable(
