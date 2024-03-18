@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import fr.chann.pokedex.data.db.AppDatabase
+import fr.chann.pokedex.data.db.FavoritePokemonDAO
 import fr.chann.pokedex.data.db.PokemonDAO
 import javax.inject.Singleton
 
@@ -29,5 +30,8 @@ class DatabaseModule {
     @Singleton
     fun providePokemonDao(appDatabase: AppDatabase): PokemonDAO = appDatabase.pokemonDao()
 
+    @Provides
+    @Singleton
+    fun provideFavoritePokemonDao(appDatabase: AppDatabase): FavoritePokemonDAO = appDatabase.favoritePokemonDao()
 }
 

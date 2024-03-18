@@ -43,7 +43,8 @@ class PokemonDetailViewModel @Inject constructor(
                         pokemonTable.id,
                         pokemonTable.name,
                         "",
-                        pokemonTable.image
+                        pokemonTable.image,
+                        0 // TODO
                     )
             ))
         }

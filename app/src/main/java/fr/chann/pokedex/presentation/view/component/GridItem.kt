@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -28,13 +29,17 @@ import fr.chann.pokedex.presentation.viewstate.PokemonCardViewState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun GridItem(pokemon: PokemonCardViewState, navController: NavController) {
+fun GridItem(pokemon: PokemonCardViewState,
+             onImageClick: (String) -> Unit,
+             onFavoriteClick: (String) -> Unit,
+             onCrossClick: (String) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         onClick = {
-            navController.navigate("pokemon_detail/${pokemon.id}")
+            onImageClick(pokemon.id)
         }
     ) {
         Column {
@@ -58,7 +63,9 @@ fun GridItem(pokemon: PokemonCardViewState, navController: NavController) {
                 Button(
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier.weight(1f),
-                    onClick = {}
+                    onClick = {
+                        onCrossClick(pokemon.id)
+                    }
                 ) {
                     Image(painter = painterResource(R.drawable.ic_cross), contentDescription = null)
                 }
@@ -66,9 +73,18 @@ fun GridItem(pokemon: PokemonCardViewState, navController: NavController) {
                 Button(
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier.weight(1f),
-                    onClick = {}
+                    onClick = {
+                        onFavoriteClick(pokemon.id)
+                    }
                 ) {
-                    Image(painter = painterResource(R.drawable.ic_baseline_favorite_disabled), contentDescription = null)
+                    Image(painter = (
+                            if (pokemon.favorite > 0)
+                                painterResource(R.drawable.ic_baseline_favorite)
+                            else
+                                painterResource(R.drawable.ic_baseline_favorite_disabled)
+                            ),
+                        contentDescription = null
+                    )
                 }
             }
         }

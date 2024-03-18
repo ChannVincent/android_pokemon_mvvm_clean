@@ -17,6 +17,7 @@ import fr.chann.pokedex.presentation.view.component.TextField
 import fr.chann.pokedex.presentation.viewmodel.PokemonListViewModel
 import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 
+//
 @Composable
 fun PokemonListView(navController: NavController, viewModel: PokemonListViewModel = hiltViewModel()) {
     LaunchedEffect(Unit) {
@@ -35,8 +36,19 @@ fun PokemonListView(navController: NavController, viewModel: PokemonListViewMode
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    items(state.pokemonList.size) { pokemonId ->
-                        GridItem(state.pokemonList[pokemonId], navController)
+                    items(state.pokemonList.size) { pokemonIndex ->
+                        GridItem(
+                            state.pokemonList[pokemonIndex],
+                            onImageClick = { pokemonId ->
+                                navController.navigate("pokemon_detail/${pokemonId}")
+                            },
+                            onCrossClick = { pokemonId ->
+                                viewModel.onEvent(PokemonListEvent.AddPokemonToFavorite(pokemonId, -1))
+                            },
+                            onFavoriteClick = { pokemonId ->
+                                viewModel.onEvent(PokemonListEvent.AddPokemonToFavorite(pokemonId, 1))
+                            }
+                        )
                     }
                 }
             }

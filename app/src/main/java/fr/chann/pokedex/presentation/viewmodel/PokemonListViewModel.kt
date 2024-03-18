@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.chann.pokedex.business.AddPokemonToFavoriteUseCase
+import fr.chann.pokedex.business.IsPokemonFavoriteUseCase
 import fr.chann.pokedex.business.PokemonRepository
 import fr.chann.pokedex.business.SearchInPokemonListUseCase
 import fr.chann.pokedex.presentation.event.PokemonListEvent
@@ -19,6 +21,8 @@ import kotlin.reflect.typeOf
 class PokemonListViewModel @Inject constructor(
     private val repository : PokemonRepository,
     private val searchInPokemonListUseCase: SearchInPokemonListUseCase,
+    private val isPokemonFavoriteUseCase: IsPokemonFavoriteUseCase,
+    private val addPokemonFavoriteUseCase: AddPokemonToFavoriteUseCase,
     ): ViewModel() {
 
     private val _viewState = MutableStateFlow<PokemonListViewState>(PokemonListViewState.Loading)
@@ -44,6 +48,12 @@ class PokemonListViewModel @Inject constructor(
                     getSearchedPokemon()
                 }
             }
+
+            is PokemonListEvent.AddPokemonToFavorite -> {
+                viewModelScope.launch {
+                    addPokemonFavoriteUseCase.execute(events.pokemonId, events.grade)
+                }
+            }
         }
     }
 
@@ -65,6 +75,7 @@ class PokemonListViewModel @Inject constructor(
                         title = "#${it.id} ${it.name}",
                         description = "",
                         image = it.image,
+                        favorite = isPokemonFavoriteUseCase.execute(it.id),
                     )
                 }
             ))
@@ -90,6 +101,7 @@ class PokemonListViewModel @Inject constructor(
                             title = it.name,
                             description = "",
                             image = it.image,
+                            favorite = isPokemonFavoriteUseCase.execute(it.id),
                         )
                     }
                 ))
