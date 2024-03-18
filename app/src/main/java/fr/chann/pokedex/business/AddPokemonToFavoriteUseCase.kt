@@ -7,11 +7,16 @@ class AddPokemonToFavoriteUseCase @Inject constructor(
     private val isPokemonFavoriteUseCase: IsPokemonFavoriteUseCase,
 ) {
     suspend fun execute(pokemonId: String, grade: Int) {
-        if (isPokemonFavoriteUseCase.execute(pokemonId) == 0) {
+        val favoritePokemon = isPokemonFavoriteUseCase.execute(pokemonId)
+        if (favoritePokemon == 0) {
             repository.addToFavorite(pokemonId, grade)
+        }
+        else if (isPokemonFavoriteUseCase.execute(pokemonId) != 0 && favoritePokemon == grade) {
+            repository.removeFromFavorite(pokemonId)
         }
         else {
             repository.removeFromFavorite(pokemonId)
+            repository.addToFavorite(pokemonId, grade)
         }
     }
 }
