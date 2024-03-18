@@ -51,7 +51,7 @@ class PokemonListViewModel @Inject constructor(
 
             is PokemonListEvent.AddPokemonToFavorite -> {
                 viewModelScope.launch {
-                    addPokemonFavoriteUseCase.execute(events.pokemonId, events.grade)
+                    addToFavorite(events.pokemonId, events.grade)
                 }
             }
         }
@@ -75,6 +75,7 @@ class PokemonListViewModel @Inject constructor(
                         title = "#${it.id} ${it.name}",
                         description = "",
                         image = it.image,
+                        imageShiny = it.imageShiny,
                         favorite = isPokemonFavoriteUseCase.execute(it.id),
                     )
                 }
@@ -98,9 +99,10 @@ class PokemonListViewModel @Inject constructor(
                     pokemonTableList.map {
                         PokemonCardViewState(
                             id = it.id,
-                            title = it.name,
+                            title = "#${it.id} ${it.name}",
                             description = "",
                             image = it.image,
+                            imageShiny = it.imageShiny,
                             favorite = isPokemonFavoriteUseCase.execute(it.id),
                         )
                     }
@@ -109,5 +111,9 @@ class PokemonListViewModel @Inject constructor(
         }
     }
 
+    private suspend fun addToFavorite(pokemonId: String, grade: Int) {
+        addPokemonFavoriteUseCase.execute(pokemonId, grade)
+        getAllPokemon()
+    }
 }
 

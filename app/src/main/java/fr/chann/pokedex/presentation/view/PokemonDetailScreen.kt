@@ -9,21 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import fr.chann.pokedex.presentation.event.PokemonDetailEvent
-import fr.chann.pokedex.presentation.event.PokemonListEvent
 import fr.chann.pokedex.presentation.viewmodel.PokemonDetailViewModel
-import fr.chann.pokedex.presentation.viewmodel.PokemonListViewModel
-import fr.chann.pokedex.presentation.viewstate.PokemonCardViewState
 import fr.chann.pokedex.presentation.viewstate.PokemonDetailViewState
-import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun PokemonDetailVIew(navController: NavController, pokemonId: String, viewModel: PokemonDetailViewModel = hiltViewModel()) {
+fun PokemonDetailScreen(navController: NavController, pokemonId: String, viewModel: PokemonDetailViewModel = hiltViewModel()) {
     LaunchedEffect(Unit) {
         viewModel.onEvent(PokemonDetailEvent.GetPokemon(pokemonId))
     }

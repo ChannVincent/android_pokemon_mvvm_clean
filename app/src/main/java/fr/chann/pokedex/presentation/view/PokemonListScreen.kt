@@ -19,7 +19,7 @@ import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 
 //
 @Composable
-fun PokemonListView(navController: NavController, viewModel: PokemonListViewModel = hiltViewModel()) {
+fun PokemonListScreen(navController: NavController, viewModel: PokemonListViewModel = hiltViewModel()) {
     LaunchedEffect(Unit) {
         viewModel.onEvent(PokemonListEvent.GetAllPokemon)
     }

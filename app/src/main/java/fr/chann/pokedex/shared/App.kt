@@ -1,4 +1,4 @@
-package fr.chann.pokedex.di
+package fr.chann.pokedex.shared
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

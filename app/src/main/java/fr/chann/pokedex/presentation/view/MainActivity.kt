@@ -43,11 +43,11 @@ fun MyApp() {
 fun MyAppNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "pokemon_list") {
         composable("pokemon_list") {
-            PokemonListView(navController)
+            PokemonListScreen(navController)
         }
         composable("pokemon_detail/{pokemonId}") {backStackEntry ->
             val pokemonId = backStackEntry.arguments?.getString("pokemonId") ?: ""
-            PokemonDetailVIew(navController, pokemonId = pokemonId)
+            PokemonDetailScreen(navController, pokemonId = pokemonId)
         }
     }
 }

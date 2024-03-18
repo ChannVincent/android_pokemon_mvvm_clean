@@ -12,12 +12,16 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -38,6 +42,9 @@ fun GridItem(pokemon: PokemonCardViewState,
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
+        colors = CardDefaults.cardColors(
+            containerColor = if (pokemon.favorite > 0) Color.DarkGray else Color.Gray,
+        ),
         onClick = {
             onImageClick(pokemon.id)
         }
@@ -51,10 +58,14 @@ fun GridItem(pokemon: PokemonCardViewState,
                         .align(Alignment.CenterVertically)
                 ) {
                     Text(text = pokemon.title, style = MaterialTheme.typography.titleMedium)
-                    GlideImage(model = pokemon.image, contentDescription = null,
-                        Modifier
+                    GlideImage(
+                        model = pokemon.image,
+                        contentDescription = null,
+                        modifier = Modifier
                             .aspectRatio(ratio = 1f)
-                            .fillMaxWidth())
+                            .fillMaxWidth(),
+                        colorFilter = if (pokemon.favorite < 0) ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }) else null
+                    )
                 }
             }
             Row (
@@ -67,12 +78,18 @@ fun GridItem(pokemon: PokemonCardViewState,
                         onCrossClick(pokemon.id)
                     }
                 ) {
-                    Image(painter = painterResource(R.drawable.ic_cross), contentDescription = null)
+                    Image(painter = (
+                            if (pokemon.favorite < 0)
+                                painterResource(R.drawable.ic_cross_dark)
+                            else
+                                painterResource(R.drawable.ic_cross)),
+                        contentDescription = null
+                    )
                 }
                 Spacer(Modifier.width(1.dp))
                 Button(
                     shape = RoundedCornerShape(0.dp),
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).align(Alignment.Bottom),
                     onClick = {
                         onFavoriteClick(pokemon.id)
                     }
