@@ -1,5 +1,6 @@
 package fr.chann.pokedex.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,11 +13,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.reflect.typeOf
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
     private val repository : PokemonRepository,
-    private val searchInPokemonListUseCase: SearchInPokemonListUseCase,
     ): ViewModel() {
 
     private val _viewState = MutableStateFlow<PokemonListViewState>(PokemonListViewState.Loading)
@@ -38,7 +39,12 @@ class PokemonListViewModel @Inject constructor(
             }
             is PokemonListEvent.SearchPokemon -> {
                 viewModelScope.launch {
-                    searchInPokemonListUseCase.execute(events.searchTerm)
+                    try {
+                        updateViewState(PokemonListViewState.Loading)
+                        repository.refreshSearchPokemonList(events.searchTerm)
+                    } catch (e: Exception) {
+                        updateViewState(PokemonListViewState.Error)
+                    }
                     getSearchedPokemon()
                 }
             }

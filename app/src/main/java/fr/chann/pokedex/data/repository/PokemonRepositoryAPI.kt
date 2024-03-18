@@ -19,9 +19,7 @@ class PokemonRepositoryAPI @Inject constructor(
 ): PokemonRepository {
 
     override val pokemonList: Flow<List<PokemonTable>> = dao.getAllPokemon()
-    private var _searchedPokemonList: MutableStateFlow<List<PokemonTable>> = MutableStateFlow(
-        emptyList()
-    )
+    private val _searchedPokemonList = MutableStateFlow<List<PokemonTable>>(emptyList())
     override val searchedPokemonList: StateFlow<List<PokemonTable>> = _searchedPokemonList
 
 
@@ -40,7 +38,7 @@ class PokemonRepositoryAPI @Inject constructor(
                 )
             }
             if (pokemonList != null) {
-                dao.insertAll(pokemonList)
+                withContext(Dispatchers.IO) { dao.insertAll(pokemonList) }
             }
         }
         catch (exception : Exception) {
@@ -49,16 +47,13 @@ class PokemonRepositoryAPI @Inject constructor(
     }
 
     override suspend fun getPokemon(pokemonId: String): Flow<PokemonTable> {
-        return dao.getPokemon(pokemonId)
+        return withContext(Dispatchers.IO) { dao.getPokemon(pokemonId) }
     }
 
     override suspend fun refreshSearchPokemonList(searchTerm: String) {
         withContext(Dispatchers.IO) {
-            _searchedPokemonList.value = dao.getAllSearchedPokemon(searchTerm)
-            Log.e("TEST", _searchedPokemonList.value.toString())
-            Log.e("TEST", "_searchedPokemonList size: " + _searchedPokemonList.value.size)
-            Log.e("TEST", searchedPokemonList.value.toString())
-            Log.e("TEST", "searchedPokemonList size: " + searchedPokemonList.value.size)
+            val result = dao.getAllSearchedPokemon(searchTerm)
+            _searchedPokemonList.value = result
         }
     }
 
