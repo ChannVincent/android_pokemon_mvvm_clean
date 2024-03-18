@@ -18,6 +18,7 @@ import kotlin.reflect.typeOf
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
     private val repository : PokemonRepository,
+    private val searchInPokemonListUseCase: SearchInPokemonListUseCase,
     ): ViewModel() {
 
     private val _viewState = MutableStateFlow<PokemonListViewState>(PokemonListViewState.Loading)
@@ -41,7 +42,7 @@ class PokemonListViewModel @Inject constructor(
                 viewModelScope.launch {
                     try {
                         updateViewState(PokemonListViewState.Loading)
-                        repository.refreshSearchPokemonList(events.searchTerm)
+                        searchInPokemonListUseCase.execute(events.searchTerm)
                     } catch (e: Exception) {
                         updateViewState(PokemonListViewState.Error)
                     }

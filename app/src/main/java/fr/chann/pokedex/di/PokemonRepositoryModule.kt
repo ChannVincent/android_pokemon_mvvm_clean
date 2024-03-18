@@ -10,6 +10,7 @@ import fr.chann.pokedex.business.PokemonRepository
 import fr.chann.pokedex.business.SearchInPokemonListUseCase
 import fr.chann.pokedex.data.repository.PokemonRepositoryAPI
 import fr.chann.pokedex.data.network.PokemonService
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -20,8 +21,8 @@ object PokemonRepositoryModule {
         return PokemonAPIClient.getService()
     }
 
-
     @Provides
+    @Singleton
     fun providesPokemonRepositoryAPI(service: PokemonService, dao: PokemonDAO) : PokemonRepositoryAPI {
         return PokemonRepositoryAPI(service, dao)
     }
