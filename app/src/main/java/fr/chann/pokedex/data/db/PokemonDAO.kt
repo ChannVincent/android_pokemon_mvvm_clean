@@ -12,6 +12,9 @@ interface PokemonDAO {
     @Query("SELECT * FROM PokemonTable")
     fun getAllPokemon(): Flow<List<PokemonTable>>
 
+    @Query("SELECT * FROM PokemonTable WHERE name LIKE '%' || :searchTerm || '%'")
+    fun getAllSearchedPokemon(searchTerm: String): List<PokemonTable>
+
     @Query("SELECT * FROM PokemonTable WHERE id LIKE :pokemonId LIMIT 1")
     fun getPokemon(pokemonId: String) : Flow<PokemonTable>
 

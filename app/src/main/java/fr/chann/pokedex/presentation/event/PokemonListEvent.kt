@@ -4,4 +4,6 @@ sealed class PokemonListEvent {
 
     data object GetAllPokemon : PokemonListEvent()
 
+    data class SearchPokemon(val searchTerm: String) : PokemonListEvent()
+
 }

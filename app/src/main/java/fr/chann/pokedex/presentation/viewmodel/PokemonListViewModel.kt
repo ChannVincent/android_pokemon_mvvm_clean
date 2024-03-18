@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.chann.pokedex.business.PokemonRepository
+import fr.chann.pokedex.business.SearchInPokemonListUseCase
 import fr.chann.pokedex.presentation.event.PokemonListEvent
 import fr.chann.pokedex.presentation.viewstate.PokemonCardViewState
 import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
     private val repository : PokemonRepository,
+    private val searchInPokemonListUseCase: SearchInPokemonListUseCase,
     ): ViewModel() {
 
     private val _viewState = MutableStateFlow<PokemonListViewState>(PokemonListViewState.Loading)
@@ -32,6 +34,12 @@ class PokemonListViewModel @Inject constructor(
                 viewModelScope.launch {
                     refreshPokemonList()
                     getAllPokemon()
+                }
+            }
+            is PokemonListEvent.SearchPokemon -> {
+                viewModelScope.launch {
+                    searchInPokemonListUseCase.execute(events.searchTerm)
+                    getSearchedPokemon()
                 }
             }
         }
@@ -60,5 +68,23 @@ class PokemonListViewModel @Inject constructor(
             ))
         }
     }
+
+    private suspend fun getSearchedPokemon() {
+        repository.searchedPokemonList.collect { pokemonTableList ->
+            if (pokemonTableList.isNotEmpty()) {
+                updateViewState(PokemonListViewState.Content(
+                    pokemonTableList.map {
+                        PokemonCardViewState(
+                            id = it.id,
+                            title = it.name,
+                            description = "",
+                            image = it.image,
+                        )
+                    }
+                ))
+            }
+        }
+    }
+
 }
 
