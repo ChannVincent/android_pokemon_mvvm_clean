@@ -40,12 +40,7 @@ class PokemonListViewModel @Inject constructor(
             }
             is PokemonListEvent.SearchPokemon -> {
                 viewModelScope.launch {
-                    try {
-                        updateViewState(PokemonListViewState.Loading)
-                        searchInPokemonListUseCase.execute(events.searchTerm)
-                    } catch (e: Exception) {
-                        updateViewState(PokemonListViewState.Error)
-                    }
+                    refreshSearchedPokemonList(events.searchTerm)
                     getSearchedPokemon()
                 }
             }
@@ -67,12 +62,21 @@ class PokemonListViewModel @Inject constructor(
                 pokemonTableList.map {
                     PokemonCardViewState(
                         id = it.id,
-                        title = it.name,
+                        title = "#${it.id} ${it.name}",
                         description = "",
                         image = it.image,
                     )
                 }
             ))
+        }
+    }
+
+    private suspend fun refreshSearchedPokemonList(searchTerm: String) {
+        try {
+            updateViewState(PokemonListViewState.Loading)
+            searchInPokemonListUseCase.execute(searchTerm)
+        } catch (e: Exception) {
+            updateViewState(PokemonListViewState.Error)
         }
     }
 

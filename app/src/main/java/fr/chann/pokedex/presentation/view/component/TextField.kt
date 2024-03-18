@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 @Composable
-fun TextFieldA(label: String, onValueChanged : (String) -> Unit) {
+fun TextField(label: String, onValueChanged : (String) -> Unit) {
     var text by remember { mutableStateOf("") }
 
     OutlinedTextField(
