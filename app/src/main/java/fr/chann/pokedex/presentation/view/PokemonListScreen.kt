@@ -1,17 +1,31 @@
 package fr.chann.pokedex.presentation.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.chann.pokedex.R
 import fr.chann.pokedex.presentation.event.PokemonListEvent
 import fr.chann.pokedex.presentation.view.component.GridItem
 import fr.chann.pokedex.presentation.view.component.TextField
@@ -31,7 +45,7 @@ fun PokemonListScreen(navController: NavController, viewModel: PokemonListViewMo
     Column {
         TopBar(title = {
                 Text(
-                    "Pokedex",
+                    stringResource(R.string.pokedex),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -47,16 +61,41 @@ fun PokemonListScreen(navController: NavController, viewModel: PokemonListViewMo
                 // display nothing
             }
             PokemonListViewMode.Search -> {
-                TextField(label = "Search your pokemon", onValueChanged = { newValue ->
-                    viewModel.onEvent(PokemonListEvent.SearchPokemon(newValue))
-                })
+                Box (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = MaterialTheme.colorScheme.primaryContainer)
+                        .padding(bottom = 10.dp, start = 10.dp, end = 10.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    TextField(
+                        label = stringResource(R.string.search_your_pokemon),
+                        onValueChanged = { newValue ->
+                        viewModel.onEvent(PokemonListEvent.SearchPokemon(newValue))
+                    })
+                }
             }
         }
         when (val state = viewState.value) {
-            is PokemonListViewState.Loading -> Text(text = "Loading")
+            is PokemonListViewState.Loading -> {
+                Box (
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.width(100.dp),
+                        color = MaterialTheme.colorScheme.secondary,
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    )
+                }
+
+            }
             is PokemonListViewState.Content -> {
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 160.dp),
+                    contentPadding = PaddingValues(10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
@@ -76,7 +115,21 @@ fun PokemonListScreen(navController: NavController, viewModel: PokemonListViewMo
                     }
                 }
             }
-            is PokemonListViewState.Error -> Text(text = "Error")
+            is PokemonListViewState.Error -> {
+                Box (
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+                    Text(text = "Internet error")
+                    Button(onClick = {
+                        viewModel.onEvent(PokemonListEvent.GetAllPokemon)
+                    }) {
+                        Text(text = "Retry")
+                    }
+                }
+            }
         }
     }
 }
