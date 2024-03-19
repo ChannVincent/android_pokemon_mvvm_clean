@@ -10,6 +10,7 @@ import fr.chann.pokedex.business.PokemonRepository
 import fr.chann.pokedex.business.SearchInPokemonListUseCase
 import fr.chann.pokedex.presentation.event.PokemonListEvent
 import fr.chann.pokedex.presentation.viewstate.PokemonCardViewState
+import fr.chann.pokedex.presentation.viewstate.PokemonListViewMode
 import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,9 +29,18 @@ class PokemonListViewModel @Inject constructor(
     private val _viewState = MutableStateFlow<PokemonListViewState>(PokemonListViewState.Loading)
     val viewState: StateFlow<PokemonListViewState> = _viewState
 
+    private val _viewMode = MutableStateFlow<PokemonListViewMode>(PokemonListViewMode.Default)
+    val viewMode: StateFlow<PokemonListViewMode> = _viewMode
+
     private fun updateViewState(newState: PokemonListViewState) {
         viewModelScope.launch {
             _viewState.value = newState
+        }
+    }
+
+    private fun updateViewMode(newMode: PokemonListViewMode) {
+        viewModelScope.launch {
+            _viewMode.value = newMode
         }
     }
 
@@ -48,10 +58,20 @@ class PokemonListViewModel @Inject constructor(
                     getSearchedPokemon()
                 }
             }
-
             is PokemonListEvent.AddPokemonToFavorite -> {
                 viewModelScope.launch {
                     addToFavorite(events.pokemonId, events.grade)
+                }
+            }
+            is PokemonListEvent.SwitchSearchMode -> {
+                viewModelScope.launch {
+                    if (events.searchMode) {
+                        updateViewMode(PokemonListViewMode.Search)
+                    }
+                    else {
+                        updateViewMode(PokemonListViewMode.Default)
+                        getAllPokemon()
+                    }
                 }
             }
         }
@@ -113,7 +133,12 @@ class PokemonListViewModel @Inject constructor(
 
     private suspend fun addToFavorite(pokemonId: String, grade: Int) {
         addPokemonFavoriteUseCase.execute(pokemonId, grade)
-        getAllPokemon()
+        if (viewMode.value == PokemonListViewMode.Default) {
+            getAllPokemon()
+        }
+        else {
+            getSearchedPokemon()
+        }
     }
 }
 

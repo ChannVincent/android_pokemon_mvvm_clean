@@ -5,3 +5,8 @@ sealed class PokemonListViewState {
     data class Content(val pokemonList: List<PokemonCardViewState>) : PokemonListViewState()
     data object Error : PokemonListViewState()
 }
+
+sealed class PokemonListViewMode {
+    data object Default : PokemonListViewMode()
+    data object Search : PokemonListViewMode()
+}

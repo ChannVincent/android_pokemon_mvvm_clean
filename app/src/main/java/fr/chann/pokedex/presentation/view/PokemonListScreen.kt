@@ -9,12 +9,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.chann.pokedex.presentation.event.PokemonListEvent
 import fr.chann.pokedex.presentation.view.component.GridItem
 import fr.chann.pokedex.presentation.view.component.TextField
+import fr.chann.pokedex.presentation.view.component.TopBar
 import fr.chann.pokedex.presentation.viewmodel.PokemonListViewModel
+import fr.chann.pokedex.presentation.viewstate.PokemonListViewMode
 import fr.chann.pokedex.presentation.viewstate.PokemonListViewState
 
 //
@@ -24,10 +27,31 @@ fun PokemonListScreen(navController: NavController, viewModel: PokemonListViewMo
         viewModel.onEvent(PokemonListEvent.GetAllPokemon)
     }
     val viewState = viewModel.viewState.collectAsState()
+    val viewMode = viewModel.viewMode.collectAsState()
     Column {
-        TextField(label = "Search your pokemon", onValueChanged = { newValue ->
-            viewModel.onEvent(PokemonListEvent.SearchPokemon(newValue))
-        })
+        TopBar(title = {
+                Text(
+                    "Pokedex",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            onSearch = {
+                viewModel.onEvent(PokemonListEvent.SwitchSearchMode(
+                    searchMode = viewMode.value == PokemonListViewMode.Default
+                ))
+            }
+        )
+        when (viewMode.value) {
+            PokemonListViewMode.Default -> {
+                // display nothing
+            }
+            PokemonListViewMode.Search -> {
+                TextField(label = "Search your pokemon", onValueChanged = { newValue ->
+                    viewModel.onEvent(PokemonListEvent.SearchPokemon(newValue))
+                })
+            }
+        }
         when (val state = viewState.value) {
             is PokemonListViewState.Loading -> Text(text = "Loading")
             is PokemonListViewState.Content -> {
