@@ -64,7 +64,7 @@ fun PokemonListScreen(navController: NavController, viewModel: PokemonListViewMo
                 Box (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = MaterialTheme.colorScheme.primaryContainer)
+                        .background(color = MaterialTheme.colorScheme.primary)
                         .padding(bottom = 10.dp, start = 10.dp, end = 10.dp),
                     contentAlignment = Alignment.Center,
                 ) {

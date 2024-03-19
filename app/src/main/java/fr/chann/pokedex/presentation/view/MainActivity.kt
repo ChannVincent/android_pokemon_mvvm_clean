@@ -14,7 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import fr.chann.pokedex.presentation.view.theme.PokedexTheme
+import fr.chann.pokedex.presentation.view.theme.AppTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -28,11 +28,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    PokedexTheme {
+    AppTheme {
         val navController = rememberNavController()
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.surfaceVariant
         ) {
             MyAppNavHost(navController = navController)
         }

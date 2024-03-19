@@ -43,7 +43,7 @@ fun GridItem(pokemon: PokemonCardViewState,
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         colors = CardDefaults.cardColors(
-            containerColor = if (pokemon.favorite > 0) Color.DarkGray else Color.Gray,
+            containerColor = if (pokemon.favorite > 0) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.background,
         ),
         onClick = {
             onImageClick(pokemon.id)
@@ -57,7 +57,11 @@ fun GridItem(pokemon: PokemonCardViewState,
                         .fillMaxWidth()
                         .align(Alignment.CenterVertically)
                 ) {
-                    Text(text = pokemon.title, style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = pokemon.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
                     GlideImage(
                         model = pokemon.image,
                         contentDescription = null,

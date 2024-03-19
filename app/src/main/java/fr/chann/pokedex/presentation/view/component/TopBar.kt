@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 fun TopBar(title: @Composable () -> Unit, onSearch: (() -> Unit)? = null, onBack: (() -> Unit)? = null) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         title = title,
         navigationIcon = {
@@ -36,6 +36,7 @@ fun TopBar(title: @Composable () -> Unit, onSearch: (() -> Unit)? = null, onBack
                 IconButton(onClick = { onBack() }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         contentDescription = null
                     )
                 }
@@ -46,6 +47,7 @@ fun TopBar(title: @Composable () -> Unit, onSearch: (() -> Unit)? = null, onBack
                 IconButton(onClick = { onSearch() }) {
                     Icon(
                         imageVector = Icons.Filled.Search,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         contentDescription = null
                     )
                 }
